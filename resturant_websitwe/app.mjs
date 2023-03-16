@@ -30,9 +30,13 @@ function drag_drop() {
   let dragSrcEl = null;
   menuBoxs[0].querySelectorAll("div").forEach((box) => {
     box.addEventListener("dragstart", function (event) {
-      dragSrcEl = this;
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/html", this.innerHTML);
+      if (event.target.tagName === "DIV") {
+        dragSrcEl = this;
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/html", this.innerHTML);
+      } else {
+        event.stopPropagation();
+      }
     });
     box.addEventListener("dragover", function (event) {
       event.preventDefault();
@@ -76,10 +80,15 @@ function dragInSubList() {
     header.draggable = true;
 
     header.addEventListener("dragstart", function (event) {
-      parent = this.parentNode;
-      dragSrcEl = this;
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/html", this.innerHTML);
+      if (event.target.tagName === "H3") {
+        parent = this.parentNode;
+        dragSrcEl = this;
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/html", this.innerHTML);
+      } else {
+        event.stopPropagation();
+        event.preventDefault();
+      }
     });
 
     header.addEventListener("dragover", function (event) {
