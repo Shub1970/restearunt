@@ -152,7 +152,9 @@ function createJson() {
   category.forEach((ctg, index) => {
     data.push({ category: ctg, rank: subList[index] });
   });
-  const jsonData = JSON.stringify(data);
+  const jsonData = JSON.stringify(data, null, 2);
+
+  //
   console.log(jsonData);
 }
 
