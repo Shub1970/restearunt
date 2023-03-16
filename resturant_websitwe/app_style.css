@@ -7,49 +7,80 @@
 
 .box {
   width: 100vw;
-
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: bisque;
+  overflow: hidden;
 }
 .menu {
-  height: 100rem;
-  width: 90%;
+  height: 95%;
+  width: 95%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(158, 94, 10);
+
+  background-image: url("./image/pexels-vincent-ma-janssen-1310777.jpg");
+  background-size: cover;
+  border: 15px;
 }
 
 .menu h1 {
   font-size: 5rem;
   font-weight: 100;
   font-family: "Cedarville Cursive", cursive;
+  color: rgb(231, 186, 131);
 }
 .menu h2 {
   font-size: 3rem;
   font-weight: 200;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(228, 140, 32);
 }
 
-.category {
-  height: 25rem;
-  width: 100%;
-  padding: 3rem;
-  background-color: rgb(113, 67, 7);
-  margin-bottom: 2rem;
+#menuBox {
+  width: 98%;
+  height: 70%;
+  background-color: rgb(32, 19, 2, 0.6);
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 5px;
 }
 
-.category ul {
-  margin: 2rem;
-  color: rgb(225, 176, 111);
+#menuBox div {
+  padding: 0.5rem;
+  cursor: move;
 }
-#log1 {
+.food {
+  height: 90%;
+  width: 90%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: rgb(163, 115, 81, 0.8);
+  border-radius: 10px;
+}
+.food div {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: x-large;
+  color: bisque;
+  font-weight: 200;
 }
 
-#log1 h4 {
-  margin: 1rem;
+.food h3 {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 3px solid rgba(112, 60, 23, 0.8);
+  text-align: center;
+}
+
+.food .over {
+  border: 3px dotted #353333;
 }
