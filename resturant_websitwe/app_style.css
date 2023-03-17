@@ -52,11 +52,9 @@
   column-gap: 5px;
 }
 
-#menuBox div {
+.chartList {
   padding: 0.5rem;
   cursor: move;
-}
-.food {
   height: 90%;
   width: 90%;
   display: flex;
@@ -66,28 +64,33 @@
   background-color: rgb(163, 115, 81, 0.8);
   border-radius: 10px;
 }
-.food div {
+.chartList div {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: x-large;
   color: bisque;
   font-weight: 200;
+  border: 2px solid red;
 }
 
-.food h3 {
+.chartList h3 {
   width: 100%;
   margin-bottom: 10px;
   /* padding: 5px; */
   border: 3px solid rgba(112, 60, 23, 0.8);
   text-align: center;
 }
-
+.enter {
+  background-color: rgb(32, 19, 2, 0.6);
+  transform: scale(1.1);
+  transition: transform 0.2s ease-out;
+}
 label {
   color: aliceblue;
   font-size: 20px;
   font-weight: 400;
 }
 
-.food .over {
+.chartList .over {
   border: 3px dotted #353333;
 }
 
@@ -99,6 +102,14 @@ label {
   z-index: 1;
   top: 2px;
   left: 2px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+#live_data {
+  width: 100%;
+  height: 3rem;
+  background-color: bisque;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 }

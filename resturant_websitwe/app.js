@@ -61,15 +61,17 @@ function creatBox() {
   const menuBoxdiv = menu.map((chart) => {
     const chartList = document.createElement("div");
     chartList.setAttribute("draggable", true);
-    chartList.className = "food";
+    chartList.className = "chartList chartls_drag chartls_drop";
     const header = document.createElement("div");
+    header.setAttribute("draggable", false);
     header.textContent = chart.id;
     chartList.appendChild(header);
-    const list = chart.food.map((li) => {
-      const l = document.createElement("h3");
-      l.setAttribute("draggable", true);
-      l.textContent = li;
-      return l;
+    const list = chart.food.map((fo) => {
+      const fd = document.createElement("h3");
+      fd.setAttribute("draggable", true);
+      fd.className = "food_drop";
+      fd.textContent = fo;
+      return fd;
     });
     list.forEach((lis) => {
       chartList.appendChild(lis);
@@ -85,65 +87,58 @@ function drag_drop() {
   let dragSrcEl = null;
   menuBoxs[0].querySelectorAll("div").forEach((box) => {
     box.addEventListener("dragstart", function (event) {
-      if (event.target.tagName === "DIV") {
-        dragSrcEl = this;
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/html", this.innerHTML);
-      } else {
-        event.stopPropagation();
-      }
+      dragSrcEl = this;
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/html", this.innerHTML);
     });
     box.addEventListener("dragover", function (event) {
       event.preventDefault();
-      this.style.backgroundColor = "rgb(32, 19, 2, 0.5)";
-      this.style.transform = "scale(1.1)";
-      this.style.transition = "transform 0.2s ease-out";
       return false;
     });
     box.addEventListener("dragenter", function (event) {
-      this.style.transform = "";
-      this.style.transition = "none";
+      this.classList.add("enter");
+      event.preventDefault();
     });
     box.addEventListener("dragleave", function (event) {
-      this.style.background = "rgb(163, 115, 81, 0.8)";
-      this.style.transform = "";
-      this.style.transition = "none";
+      this.classList.remove("enter");
     });
     box.addEventListener("dragend", function (event) {
-      this.style.transform = "scale(1)";
-      this.style.background = "rgb(163, 115, 81, 0.8)";
+      menuBoxs[0].querySelectorAll("div").forEach(function (item) {
+        item.classList.remove("over");
+      });
     });
     box.addEventListener("drop", function (event) {
       event.stopPropagation();
-      if (dragSrcEl !== this && this.tagName === "DIV") {
+      if (
+        dragSrcEl !== this &&
+        this.classList.contains("chartls_drop") === true
+      ) {
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = event.dataTransfer.getData("text/html");
       }
       this.style.transform = "scale(1)";
       this.style.background = "rgb(163, 115, 81, 0.8)";
-
+      dragInSubList();
       createJson();
       return false;
     });
   });
 }
+
 function dragInSubList() {
-  //   let parentNode = null;
+  let parentNode = null;
   let dragSrcEl = null;
   const boxHeaders = document.querySelectorAll("#menuBox div h3");
   boxHeaders.forEach((header) => {
     header.draggable = true;
 
     header.addEventListener("dragstart", function (event) {
-      if (event.target.tagName === "H3") {
-        parent = this.parentNode;
-        dragSrcEl = this;
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/html", this.innerHTML);
-      } else {
-        event.stopPropagation();
-        event.preventDefault();
-      }
+      event.stopPropagation();
+      parentNode = this.parentNode;
+      dragSrcEl = this;
+      console.log(this.innerHTML);
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/html", this.innerHTML);
     });
 
     header.addEventListener("dragover", function (event) {
@@ -151,6 +146,7 @@ function dragInSubList() {
       return false;
     });
     header.addEventListener("dragenter", function (event) {
+      event.preventDefault();
       this.classList.add("over");
     });
     header.addEventListener("dragleave", function (event) {
@@ -165,22 +161,27 @@ function dragInSubList() {
     header.addEventListener("drop", function (event) {
       event.stopPropagation();
       event.preventDefault();
-      if (parent === this.parentNode && this.tagName === "H3") {
-        if (dragSrcEl !== this) {
-          const temp = dragSrcEl.innerHTML;
+      console.log("checking the condition==", parentNode === this.parentNode);
+      if (parentNode === this.parentNode) {
+        if (
+          dragSrcEl !== this &&
+          this.classList.contains("food_drop") === true
+        ) {
+          console.log("changing did happen");
           dragSrcEl.innerHTML = this.innerHTML;
-          this.innerHTML = temp;
+          this.innerHTML = event.dataTransfer.getData("text/html");
           createJson();
         }
+      } else {
+        return false;
       }
-      return false;
     });
   });
 }
 
 function update_menujs() {
   let updated_catg = [];
-  const fooddiv = document.querySelectorAll(".food");
+  const fooddiv = document.querySelectorAll(".chartList");
   fooddiv.forEach((food) => {
     let temp = menu.filter((obj) => {
       return obj.id === food.children[0].textContent;
@@ -219,33 +220,48 @@ function createJson() {
   const jsonData = JSON.stringify(data, null, 2);
   if (document.getElementById("myCheck").checked) {
     localStorage.setItem("myData", jsonData);
-    loadJsonFromLocalStorage();
   }
+  displayDataFromLocalStorage();
   return jsonData;
 }
 
 function saveJsonToLocalStorage() {
   const data = createJson();
   localStorage.setItem("myData", data);
-  loadJsonFromLocalStorage();
 }
 
-function loadJsonFromLocalStorage() {
+function displayDataFromLocalStorage() {
   const data = localStorage.getItem("myData");
-  let box = document.getElementById("status");
   if (data) {
     const jsonData = JSON.parse(data);
-    jsonData.forEach((data) => {
-      let di = document.createElement("div");
+    const list = document.getElementById("live_data");
+    list.innerHTML = "";
+    jsonData.forEach((item) => {
+      const li1 = document.createElement("li");
+      const li2 = document.createElement("li");
+      const box = document.createElement("div");
+      li1.textContent = `category:${item.category}`;
+      li2.textContent = `rank:${item.rank}`;
+      box.appendChild(li1);
+      box.appendChild(li2);
+
+      list.appendChild(box);
     });
   }
 }
-
 document
   .getElementById("myCheck")
   .addEventListener("click", saveJsonToLocalStorage);
+
+// window.addEventListener("storage", function (event) {
+//   console.log("storage is happing");
+//   if (event.key === "myData") {
+//     displayDataFromLocalStorage();
+//   }
+// });
 
 creatBox();
 drag_drop();
 dragInSubList();
 createJson();
+displayDataFromLocalStorage();
