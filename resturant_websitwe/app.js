@@ -103,8 +103,8 @@ function drag_drop() {
       this.classList.remove("enter");
     });
     box.addEventListener("dragend", function (event) {
-      menuBoxs[0].querySelectorAll("div").forEach(function (item) {
-        item.classList.remove("over");
+      menuBoxs[0].querySelectorAll(".chartList").forEach(function (item) {
+        item.classList.remove("enter");
       });
     });
     box.addEventListener("drop", function (event) {
