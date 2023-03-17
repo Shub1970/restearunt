@@ -142,8 +142,10 @@ function dragInSubList() {
       return false;
     });
     header.addEventListener("dragenter", function (event) {
-      event.preventDefault();
-      this.classList.add("over");
+      if (this.parentNode === parentNode) {
+        event.preventDefault();
+        this.classList.add("over");
+      }
     });
     header.addEventListener("dragleave", function (event) {
       this.classList.remove("over");
