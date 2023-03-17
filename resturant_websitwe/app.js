@@ -109,18 +109,14 @@ function drag_drop() {
     });
     box.addEventListener("drop", function (event) {
       event.stopPropagation();
-      if (
-        dragSrcEl !== this &&
-        this.classList.contains("chartls_drop") === true
-      ) {
+      if (dragSrcEl !== this && this.classList.contains("chartls_drop")) {
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = event.dataTransfer.getData("text/html");
+        this.style.transform = "scale(1)";
+        this.style.background = "rgb(163, 115, 81, 0.8)";
       }
-      this.style.transform = "scale(1)";
-      this.style.background = "rgb(163, 115, 81, 0.8)";
       dragInSubList();
       createJson();
-      return false;
     });
   });
 }
