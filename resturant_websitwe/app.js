@@ -85,7 +85,7 @@ function creatBox() {
 
 function drag_drop() {
   let dragSrcEl = null;
-  menuBoxs[0].querySelectorAll("div").forEach((box) => {
+  menuBoxs[0].querySelectorAll(".chartList").forEach((box) => {
     box.addEventListener("dragstart", function (event) {
       dragSrcEl = this;
       event.dataTransfer.effectAllowed = "move";

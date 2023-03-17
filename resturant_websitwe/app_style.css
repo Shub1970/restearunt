@@ -85,25 +85,14 @@
   transition: transform 0.2s ease-out;
 }
 label {
-  color: aliceblue;
+  color: rgb(201, 24, 224);
   font-size: 20px;
   font-weight: 400;
+  border: 2px solid rgb(201, 24, 224);
 }
 
 .chartList .over {
   border: 3px dotted #353333;
-}
-
-#status {
-  position: absolute;
-  background-color: aqua;
-  width: 400px;
-  height: 160px;
-  z-index: 1;
-  top: 2px;
-  left: 2px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
 }
 
 #live_data {
